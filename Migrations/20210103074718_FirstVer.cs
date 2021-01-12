@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CloneTheme.Migrations
 {
-    public partial class Intial_4 : Migration
+    public partial class FirstVer : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,7 +11,7 @@ namespace CloneTheme.Migrations
                 name: "Categories",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    CategoryId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CreateOn = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     UpdateOn = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
@@ -19,7 +19,7 @@ namespace CloneTheme.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Categories", x => x.Id);
+                    table.PrimaryKey("PK_Categories", x => x.CategoryId);
                 });
 
             migrationBuilder.CreateTable(
@@ -28,14 +28,15 @@ namespace CloneTheme.Migrations
                 {
                     CustomerId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CustomerGuid = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedOn = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     Token = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RefreshToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LatestUpdatedOn = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    Mail = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    UpdatedOn = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    Mail = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -46,20 +47,20 @@ namespace CloneTheme.Migrations
                 name: "Roles",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    RoleId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Roles = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Roles", x => x.Id);
+                    table.PrimaryKey("PK_Roles", x => x.RoleId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Images",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    ImageId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ImageName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -67,7 +68,7 @@ namespace CloneTheme.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Images", x => x.Id);
+                    table.PrimaryKey("PK_Images", x => x.ImageId);
                     table.ForeignKey(
                         name: "FK_Images_Customers_CustomersCustomerId",
                         column: x => x.CustomersCustomerId,
@@ -104,11 +105,11 @@ namespace CloneTheme.Migrations
                 columns: table => new
                 {
                     CustomersCustomerId = table.Column<int>(type: "int", nullable: false),
-                    RolesId = table.Column<int>(type: "int", nullable: false)
+                    RolesRoleId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CustomerRole", x => new { x.CustomersCustomerId, x.RolesId });
+                    table.PrimaryKey("PK_CustomerRole", x => new { x.CustomersCustomerId, x.RolesRoleId });
                     table.ForeignKey(
                         name: "FK_CustomerRole_Customers_CustomersCustomerId",
                         column: x => x.CustomersCustomerId,
@@ -116,10 +117,10 @@ namespace CloneTheme.Migrations
                         principalColumn: "CustomerId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CustomerRole_Roles_RolesId",
-                        column: x => x.RolesId,
+                        name: "FK_CustomerRole_Roles_RolesRoleId",
+                        column: x => x.RolesRoleId,
                         principalTable: "Roles",
-                        principalColumn: "Id",
+                        principalColumn: "RoleId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -127,17 +128,17 @@ namespace CloneTheme.Migrations
                 name: "CategoryPost",
                 columns: table => new
                 {
-                    CategoriesId = table.Column<int>(type: "int", nullable: false),
+                    CategoriesCategoryId = table.Column<int>(type: "int", nullable: false),
                     PostsPostId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CategoryPost", x => new { x.CategoriesId, x.PostsPostId });
+                    table.PrimaryKey("PK_CategoryPost", x => new { x.CategoriesCategoryId, x.PostsPostId });
                     table.ForeignKey(
-                        name: "FK_CategoryPost_Categories_CategoriesId",
-                        column: x => x.CategoriesId,
+                        name: "FK_CategoryPost_Categories_CategoriesCategoryId",
+                        column: x => x.CategoriesCategoryId,
                         principalTable: "Categories",
-                        principalColumn: "Id",
+                        principalColumn: "CategoryId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_CategoryPost_Posts_PostsPostId",
@@ -178,17 +179,17 @@ namespace CloneTheme.Migrations
                 name: "ImagePost",
                 columns: table => new
                 {
-                    ImagesId = table.Column<int>(type: "int", nullable: false),
+                    ImagesImageId = table.Column<int>(type: "int", nullable: false),
                     PostsPostId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ImagePost", x => new { x.ImagesId, x.PostsPostId });
+                    table.PrimaryKey("PK_ImagePost", x => new { x.ImagesImageId, x.PostsPostId });
                     table.ForeignKey(
-                        name: "FK_ImagePost_Images_ImagesId",
-                        column: x => x.ImagesId,
+                        name: "FK_ImagePost_Images_ImagesImageId",
+                        column: x => x.ImagesImageId,
                         principalTable: "Images",
-                        principalColumn: "Id",
+                        principalColumn: "ImageId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_ImagePost_Posts_PostsPostId",
@@ -214,9 +215,9 @@ namespace CloneTheme.Migrations
                 column: "PostId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CustomerRole_RolesId",
+                name: "IX_CustomerRole_RolesRoleId",
                 table: "CustomerRole",
-                column: "RolesId");
+                column: "RolesRoleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ImagePost_PostsPostId",

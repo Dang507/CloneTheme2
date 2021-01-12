@@ -8,7 +8,7 @@ namespace CloneTheme.Models
 {
     public class Role 
     {
-        public int Id { get; set; }
+        public int RoleId { get; set; }
         public string Roles { get; set; }
         public ICollection<Customer>Customers { get; set; }
 

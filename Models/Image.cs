@@ -7,7 +7,7 @@ namespace CloneTheme.Models
 {
     public class Image
     {
-        public int Id { get; set; }
+        public int ImageId { get; set; }
         public string ImageName { get; set; }
 
         public string Type { get; set; }

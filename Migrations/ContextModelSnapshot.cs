@@ -21,13 +21,13 @@ namespace CloneTheme.Migrations
 
             modelBuilder.Entity("CategoryPost", b =>
                 {
-                    b.Property<int>("CategoriesId")
+                    b.Property<int>("CategoriesCategoryId")
                         .HasColumnType("int");
 
                     b.Property<int>("PostsPostId")
                         .HasColumnType("int");
 
-                    b.HasKey("CategoriesId", "PostsPostId");
+                    b.HasKey("CategoriesCategoryId", "PostsPostId");
 
                     b.HasIndex("PostsPostId");
 
@@ -36,7 +36,7 @@ namespace CloneTheme.Migrations
 
             modelBuilder.Entity("CloneTheme.Models.Category", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("CategoryId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
@@ -50,7 +50,7 @@ namespace CloneTheme.Migrations
                     b.Property<DateTimeOffset>("UpdateOn")
                         .HasColumnType("datetimeoffset");
 
-                    b.HasKey("Id");
+                    b.HasKey("CategoryId");
 
                     b.ToTable("Categories");
                 });
@@ -88,6 +88,7 @@ namespace CloneTheme.Migrations
                         .UseIdentityColumn();
 
                     b.Property<string>("Address")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTimeOffset>("CreatedOn")
@@ -96,13 +97,12 @@ namespace CloneTheme.Migrations
                     b.Property<Guid>("CustomerGuid")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTimeOffset>("LatestUpdatedOn")
-                        .HasColumnType("datetimeoffset");
-
                     b.Property<string>("Mail")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PasswordHash")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RefreshToken")
@@ -111,7 +111,11 @@ namespace CloneTheme.Migrations
                     b.Property<string>("Token")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTimeOffset>("UpdatedOn")
+                        .HasColumnType("datetimeoffset");
+
                     b.Property<string>("UserName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CustomerId");
@@ -121,7 +125,7 @@ namespace CloneTheme.Migrations
 
             modelBuilder.Entity("CloneTheme.Models.Image", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ImageId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
@@ -135,7 +139,7 @@ namespace CloneTheme.Migrations
                     b.Property<string>("Type")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("ImageId");
 
                     b.HasIndex("CustomersCustomerId");
 
@@ -173,7 +177,7 @@ namespace CloneTheme.Migrations
 
             modelBuilder.Entity("CloneTheme.Models.Role", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("RoleId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
@@ -181,7 +185,7 @@ namespace CloneTheme.Migrations
                     b.Property<string>("Roles")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("RoleId");
 
                     b.ToTable("Roles");
                 });
@@ -191,25 +195,25 @@ namespace CloneTheme.Migrations
                     b.Property<int>("CustomersCustomerId")
                         .HasColumnType("int");
 
-                    b.Property<int>("RolesId")
+                    b.Property<int>("RolesRoleId")
                         .HasColumnType("int");
 
-                    b.HasKey("CustomersCustomerId", "RolesId");
+                    b.HasKey("CustomersCustomerId", "RolesRoleId");
 
-                    b.HasIndex("RolesId");
+                    b.HasIndex("RolesRoleId");
 
                     b.ToTable("CustomerRole");
                 });
 
             modelBuilder.Entity("ImagePost", b =>
                 {
-                    b.Property<int>("ImagesId")
+                    b.Property<int>("ImagesImageId")
                         .HasColumnType("int");
 
                     b.Property<int>("PostsPostId")
                         .HasColumnType("int");
 
-                    b.HasKey("ImagesId", "PostsPostId");
+                    b.HasKey("ImagesImageId", "PostsPostId");
 
                     b.HasIndex("PostsPostId");
 
@@ -220,7 +224,7 @@ namespace CloneTheme.Migrations
                 {
                     b.HasOne("CloneTheme.Models.Category", null)
                         .WithMany()
-                        .HasForeignKey("CategoriesId")
+                        .HasForeignKey("CategoriesCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -278,7 +282,7 @@ namespace CloneTheme.Migrations
 
                     b.HasOne("CloneTheme.Models.Role", null)
                         .WithMany()
-                        .HasForeignKey("RolesId")
+                        .HasForeignKey("RolesRoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -287,7 +291,7 @@ namespace CloneTheme.Migrations
                 {
                     b.HasOne("CloneTheme.Models.Image", null)
                         .WithMany()
-                        .HasForeignKey("ImagesId")
+                        .HasForeignKey("ImagesImageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

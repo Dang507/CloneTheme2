@@ -14,7 +14,7 @@ namespace CloneTheme.Models
         }
         public DateTimeOffset CreateOn { get; set; }
         public DateTimeOffset UpdateOn { get; set; }
-        public int Id { get; set; }
+        public int CategoryId { get; set; }
         public string CategoryName { get; set; }
        public ICollection<Post>Posts { get; set; }
        
